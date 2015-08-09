@@ -6,6 +6,7 @@ import javafx.scene.control.TextAreaBuilder;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.PrintStream;
@@ -214,7 +215,7 @@ public class Main extends Application {
         filePath.setMinWidth(MIN_TEXT_WIDTH);
         TextField optionalUrl = new TextField("Put the 4chan board url to rip here");
         optionalUrl.setMinWidth(MIN_TEXT_WIDTH);
-        Button goButton = new Button("Begin Rip");
+        Button goButton = new Button("Begin Board Rip");
         goButton.setOnAction(event -> {
             System.out.println("Finding threads...");
             ThreadRipper ripper = new ThreadRipper(filePath.getText());
@@ -236,7 +237,7 @@ public class Main extends Application {
         filePathTR.setMinWidth(MIN_TEXT_WIDTH);
         TextField optionalUrlTR = new TextField("Put the 4chan thread url to rip here");
         optionalUrlTR.setMinWidth(MIN_TEXT_WIDTH);
-        Button goButtonTR = new Button("Begin Rip");
+        Button goButtonTR = new Button("Begin Thread Rip");
         goButtonTR.setOnAction(event -> {
             System.out.println("Starting thread rip...");
             ThreadRipper threadRipper = new ThreadRipper(filePathTR.getText());
@@ -258,6 +259,8 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setTitle("4chan Image Ripper");
         stage.show();
-        System.out.println("It is advised to disable the sticky for boards with them");
+        System.out.println("___________________________It is advised to disable the sticky if the board you are ripping has one____________________________");
+        System.out.println("________________________If you are on Linux/Mac make sure to start file paths from the root directory_________________________");
+        System.out.println("_____________If you are on PC make sure to start file paths from whichever drive you wish to use ex.(C:\\Downloads\\)____________");
     }
 }
