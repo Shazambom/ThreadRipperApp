@@ -19,17 +19,29 @@ public class ThreadRipper {
     private HashMap<Integer, String> duplicateNames;
     private String filePath;
 
+    /**
+     * Initializes Thread Ripper and sets it up to rip images
+     * @param filePath String of the file path where the images will be downloaded to
+     */
     public ThreadRipper(String filePath) {
         this.filePath = filePath;
         initDuplicates();
         total = 0;
     }
 
+    /**
+     * Changes the file path local variable
+     * @param filePath String of the file path where the images will be downloaded to
+     */
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
 
 
+    /**
+     * Rips the images from the thread url and puts them in the file path given
+     * @param url String of the thread url where the images will be downloaded from
+     */
     public void RipThread(String url) {
         try {
             UserAgent userAgent = new UserAgent();
@@ -61,10 +73,18 @@ public class ThreadRipper {
 
 
         } catch (JauntException e) {
-            e.printStackTrace();
+            System.out.println("An error occurred. Try again.");
         }
     }
 
+    /**
+     * Downloads the images from the thread
+     * @param links links to the images on the thread
+     * @param names names of the image files (they will be named this when downloaded)
+     * @param userAgent the Jaunt object that can look at websites and download files
+     * @param files the files to exclude from the download process because they are already in the file path
+     * @return the number of successful downloaded images
+     */
     private int downloadImages(List<String> links, List<String> names, UserAgent userAgent, HashMap<Integer, String> files) {
         int success = 0;
         for (int i = 0; i < links.size(); i++) {
@@ -90,6 +110,11 @@ public class ThreadRipper {
     }
 
 
+    /**
+     * Parses the url out of a string
+     * @param link the String containing a url
+     * @return the String of the url that is parsed out of the link
+     */
     private String parseLink(String link) {
         String toReturn = "";
         for (int i = 0; i < link.length(); i++) {
@@ -104,16 +129,30 @@ public class ThreadRipper {
         return toReturn;
     }
 
+    /**
+     * Parses the file name out of the link
+     * @param link the link to parse the name of the file out of
+     * @return the name of the file
+     */
     private String parseFileName(String link) {
+        int slashCount = 0;
         for (int i = 0; i < link.length(); i++) {
-            if (link.substring(i, i + 3).equals("/w/")) {
-                return link.substring(i + 4);
+            if (link.charAt(i) == '/') {
+                slashCount++;
+            }
+            if (slashCount == 4) {
+                return link.substring(i + 1);
             }
         }
         return "";
     }
 
 
+    /**
+     * Recursively searches through a 4chan board looking for threads
+     * @param url the 4chan board you are searching through
+     * @return the List of threads that are found
+     */
     public ArrayList<String> getThreads(String url) {
         ArrayList<String> threadUrls = new ArrayList<String>();
         try {
@@ -132,11 +171,16 @@ public class ThreadRipper {
             threadUrls.addAll(getThreads(userAgent.doc.getUrl()));
 
         } catch (JauntException e) {
-            e.printStackTrace();
+            System.out.println("An error occurred. Try again.");
         }
         return threadUrls;
     }
 
+    /**
+     * Some threads are copyCats (aka the same threads)
+     * This is simply a helper method that removes all urls of threads that are not unique
+     * @param threadUrls the list of threads to be searched through
+     */
     private void removeCopyCats(ArrayList<String> threadUrls) {
         ArrayList<String> copyCatUrls = new ArrayList<String>();
         for (String element : threadUrls) {
@@ -160,10 +204,18 @@ public class ThreadRipper {
         }
     }
 
+    /**
+     * Gets the total number of files downloaded
+     * @return total number of files downloaded
+     */
     public int getTotal() {
         return total;
     }
 
+    /**
+     * Cleans up the folder that the files were downloaded to.
+     * It removes all duplicate files or previously downloaded files
+     */
     public void cleanUp() {
         ArrayList<File> folder = new ArrayList<File>();
         for (File element : new File(filePath).listFiles()) {
@@ -191,11 +243,16 @@ public class ThreadRipper {
             System.out.println("Resolving invalid wallpapers...");
             resolveDuplicates(toRemove);
         } catch (Exception e) {
-            System.out.println("Well shit");
-            e.printStackTrace();
+            System.out.println("An error occurred. Try again.");
         }
     }
 
+    /**
+     * Assists cleanUp() by removing files that are unwanted
+     * Also writes the names of the removed files to a text file as a reference for later
+     * so the files are not downloaded again.
+     * @param toRemove the list of files to remove
+     */
     private void resolveDuplicates(ArrayList<File> toRemove) {
         try {
             PrintWriter out = new PrintWriter(filePath + "duplicates.txt");
@@ -211,10 +268,14 @@ public class ThreadRipper {
             System.out.println("]");
             out.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("An error occurred. Try again.");
         }
     }
 
+    /**
+     * Initializes the duplicates file
+     * The file is used to ignore any unwanted files
+     */
     private void initDuplicates() {
         try {
             duplicateNames = new HashMap<Integer, String>();
@@ -231,20 +292,21 @@ public class ThreadRipper {
 
         } catch (Exception e) {
             try {
-                ArrayList<String> dupNames = traverseFiles(new File(filePath).getParentFile());
                 PrintWriter out = new PrintWriter(new File(filePath + "duplicates.txt"));
-                for (String element : dupNames) {
-                    out.println(element);
-                    duplicateNames.put(element.hashCode(), element);
-                }
+                out.println("\n");
                 out.close();
             } catch (Exception exception) {
-                exception.printStackTrace();
+                System.out.println("An error occurred. Try again.");
             }
 
         }
     }
 
+    /**
+     * Parses the thread name out of a url
+     * @param threadName the url of the thread
+     * @return returns the name of the thread
+     */
     private String parseThreadName(String threadName) {
         String name = threadName.substring(33);
         String toReturn = "";
@@ -255,23 +317,6 @@ public class ThreadRipper {
             }
             if (name.charAt(i) == '/') {
                 isName = true;
-            }
-        }
-        return toReturn;
-    }
-
-    private ArrayList<String> traverseFiles(File file) {
-        ArrayList<String> toReturn = new ArrayList<String>();
-        if (file.listFiles() != null) {
-            File[] files = file.listFiles();
-            if (files.length > 0) {
-                for (File element : files) {
-                    if (element.isDirectory()) {
-                        toReturn.addAll(traverseFiles(element));
-                    } else {
-                        toReturn.add(element.getName());
-                    }
-                }
             }
         }
         return toReturn;

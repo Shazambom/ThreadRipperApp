@@ -6,7 +6,6 @@ import javafx.scene.control.TextAreaBuilder;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.PrintStream;
@@ -19,6 +18,10 @@ public class Main extends Application {
     private static final int MIN_TEXT_WIDTH = 225;
     private static int stickyNum = 0;
 
+    /**
+     * The start method that runs the application
+     * @param stage The stage object for JavaFX
+     */
     public void start(Stage stage) {
 
 
@@ -49,194 +52,64 @@ public class Main extends Application {
         otherFilePath.setMinWidth(MIN_TEXT_WIDTH);
         Button wButton = new Button("/w/");
         wButton.setOnAction(event -> {
-            System.out.println("Finding threads...");
-            ThreadRipper ripper = new ThreadRipper(otherFilePath.getText());
-            ArrayList<String> threadUrls = ripper.getThreads("http://boards.4chan.org/w/");
-            System.out.println(threadUrls.size() + " threads found");
-            System.out.println("Ripping threads now...");
-            for (int i = stickyNum; i < threadUrls.size(); i++) {
-                ripper.RipThread(threadUrls.get(i));
-            }
-            System.out.println("\nBoard Rip complete");
-            System.out.println(ripper.getTotal() + " images Ripped");
-            System.out.println("Cleaning up folder...");
-            ripper.cleanUp();
-            System.out.println("Cleanup complete");
+            ripBoard(otherFilePath.getText(), "http://boards.4chan.org/w/");
         });
         Button fitButton = new Button("/fit/");
         fitButton.setOnAction(event -> {
-            System.out.println("Finding threads...");
-            ThreadRipper ripper = new ThreadRipper(otherFilePath.getText());
-            ArrayList<String> threadUrls = ripper.getThreads("http://boards.4chan.org/fit/");
-            System.out.println(threadUrls.size() + " threads found");
-            System.out.println("Ripping threads now...");
-            for (int i = stickyNum; i < threadUrls.size(); i++) {
-                ripper.RipThread(threadUrls.get(i));
-            }
-            System.out.println("\nBoard Rip complete");
-            System.out.println(ripper.getTotal() + " images Ripped");
-            System.out.println("Cleaning up folder...");
-            ripper.cleanUp();
-            System.out.println("Cleanup complete");
+            ripBoard(otherFilePath.getText(), "http://boards.4chan.org/fit/");
         });
         Button r9kButton = new Button("/r9k/");
         r9kButton.setOnAction(event -> {
-            System.out.println("Finding threads...");
-            ThreadRipper ripper = new ThreadRipper(otherFilePath.getText());
-            ArrayList<String> threadUrls = ripper.getThreads("http://boards.4chan.org/r9k/");
-            System.out.println(threadUrls.size() + " threads found");
-            System.out.println("Ripping threads now...");
-            for (int i = stickyNum; i < threadUrls.size(); i++) {
-                ripper.RipThread(threadUrls.get(i));
-            }
-            System.out.println("\nBoard Rip complete");
-            System.out.println(ripper.getTotal() + " images Ripped");
-            System.out.println("Cleaning up folder...");
-            ripper.cleanUp();
-            System.out.println("Cleanup complete");
+            ripBoard(otherFilePath.getText(), "http://boards.4chan.org/r9k/");
         });
         Button aButton = new Button("/a/");
         aButton.setOnAction(event -> {
-            System.out.println("Finding threads...");
-            ThreadRipper ripper = new ThreadRipper(otherFilePath.getText());
-            ArrayList<String> threadUrls = ripper.getThreads("http://boards.4chan.org/a/");
-            System.out.println(threadUrls.size() + " threads found");
-            System.out.println("Ripping threads now...");
-            for (int i = stickyNum; i < threadUrls.size(); i++) {
-                ripper.RipThread(threadUrls.get(i));
-            }
-            System.out.println("\nBoard Rip complete");
-            System.out.println(ripper.getTotal() + " images Ripped");
-            System.out.println("Cleaning up folder...");
-            ripper.cleanUp();
-            System.out.println("Cleanup complete");
+            ripBoard(otherFilePath.getText(), "http://boards.4chan.org/a/");
         });
         Button cButton = new Button("/c/");
         cButton.setOnAction(event -> {
-            System.out.println("Finding threads...");
-            ThreadRipper ripper = new ThreadRipper(otherFilePath.getText());
-            ArrayList<String> threadUrls = ripper.getThreads("http://boards.4chan.org/c/");
-            System.out.println(threadUrls.size() + " threads found");
-            System.out.println("Ripping threads now...");
-            for (int i = stickyNum; i < threadUrls.size(); i++) {
-                ripper.RipThread(threadUrls.get(i));
-            }
-            System.out.println("\nBoard Rip complete");
-            System.out.println(ripper.getTotal() + " images Ripped");
-            System.out.println("Cleaning up folder...");
-            ripper.cleanUp();
-            System.out.println("Cleanup complete");
+            ripBoard(otherFilePath.getText(), "http://boards.4chan.org/c/");
         });
         Button bButton = new Button("/b/");
         bButton.setOnAction(event -> {
-            System.out.println("Finding threads...");
-            ThreadRipper ripper = new ThreadRipper(otherFilePath.getText());
-            ArrayList<String> threadUrls = ripper.getThreads("http://boards.4chan.org/b/");
-            System.out.println(threadUrls.size() + " threads found");
-            System.out.println("Ripping threads now...");
-            for (int i = stickyNum; i < threadUrls.size(); i++) {
-                ripper.RipThread(threadUrls.get(i));
-            }
-            System.out.println("\nBoard Rip complete");
-            System.out.println(ripper.getTotal() + " images Ripped");
-            System.out.println("Cleaning up folder...");
-            ripper.cleanUp();
-            System.out.println("Cleanup complete");
+            ripBoard(otherFilePath.getText(), "http://boards.4chan.org/b/");
         });
         Button polButton = new Button("/pol/");
         polButton.setOnAction(event -> {
-            System.out.println("Finding threads...");
-            ThreadRipper ripper = new ThreadRipper(otherFilePath.getText());
-            ArrayList<String> threadUrls = ripper.getThreads("http://boards.4chan.org/pol/");
-            System.out.println(threadUrls.size() + " threads found");
-            System.out.println("Ripping threads now...");
-            for (int i = stickyNum; i < threadUrls.size(); i++) {
-                ripper.RipThread(threadUrls.get(i));
-            }
-            System.out.println("\nBoard Rip complete");
-            System.out.println(ripper.getTotal() + " images Ripped");
-            System.out.println("Cleaning up folder...");
-            ripper.cleanUp();
-            System.out.println("Cleanup complete");
+            ripBoard(otherFilePath.getText(), "http://boards.4chan.org/pol/");
         });
         Button kButton = new Button("/k/");
         kButton.setOnAction(event -> {
-            System.out.println("Finding threads...");
-            ThreadRipper ripper = new ThreadRipper(otherFilePath.getText());
-            ArrayList<String> threadUrls = ripper.getThreads("http://boards.4chan.org/k/");
-            System.out.println(threadUrls.size() + " threads found");
-            System.out.println("Ripping threads now...");
-            for (int i = stickyNum; i < threadUrls.size(); i++) {
-                ripper.RipThread(threadUrls.get(i));
-            }
-            System.out.println("\nBoard Rip complete");
-            System.out.println(ripper.getTotal() + " images Ripped");
-            System.out.println("Cleaning up folder...");
-            ripper.cleanUp();
-            System.out.println("Cleanup complete");
+            ripBoard(otherFilePath.getText(), "http://boards.4chan.org/k/");
         });
         Button vButton = new Button("/v/");
         vButton.setOnAction(event -> {
-            System.out.println("Finding threads...");
-            ThreadRipper ripper = new ThreadRipper(otherFilePath.getText());
-            ArrayList<String> threadUrls = ripper.getThreads("http://boards.4chan.org/v/");
-            System.out.println(threadUrls.size() + " threads found");
-            System.out.println("Ripping threads now...");
-            for (int i = stickyNum; i < threadUrls.size(); i++) {
-                ripper.RipThread(threadUrls.get(i));
-            }
-            System.out.println("\nBoard Rip complete");
-            System.out.println(ripper.getTotal() + " images Ripped");
-            System.out.println("Cleaning up folder...");
-            ripper.cleanUp();
-            System.out.println("Cleanup complete");
+            ripBoard(otherFilePath.getText(), "http://boards.4chan.org/v/");
         });
         Button vpButton = new Button("/vp/");
         vpButton.setOnAction(event -> {
-            System.out.println("Finding threads...");
-            ThreadRipper ripper = new ThreadRipper(otherFilePath.getText());
-            ArrayList<String> threadUrls = ripper.getThreads("http://boards.4chan.org/vp/");
-            System.out.println(threadUrls.size() + " threads found");
-            System.out.println("Ripping threads now...");
-            for (int i = stickyNum; i < threadUrls.size(); i++) {
-                ripper.RipThread(threadUrls.get(i));
-            }
-            System.out.println("\nBoard Rip complete");
-            System.out.println(ripper.getTotal() + " images Ripped");
-            System.out.println("Cleaning up folder...");
-            ripper.cleanUp();
-            System.out.println("Cleanup complete");
+            ripBoard(otherFilePath.getText(), "http://boards.4chan.org/vp/");
         });
         HBox left = new HBox(10, wButton, fitButton, r9kButton, aButton, cButton);
         HBox right = new HBox(10, bButton, polButton, kButton, vButton, vpButton);
-
         VBox buttonList = new VBox(10, otherFilePath, left, right);
+
         TextField filePath = new TextField("F:\\RippedImages\\");
         filePath.setMinWidth(MIN_TEXT_WIDTH);
         TextField optionalUrl = new TextField("Put the 4chan board url to rip here");
         optionalUrl.setMinWidth(MIN_TEXT_WIDTH);
         Button goButton = new Button("Begin Board Rip");
         goButton.setOnAction(event -> {
-            System.out.println("Finding threads...");
-            ThreadRipper ripper = new ThreadRipper(filePath.getText());
-            ArrayList<String> threadUrls = ripper.getThreads(optionalUrl.getText());
-            System.out.println(threadUrls.size() + " threads found");
-            System.out.println("Ripping threads now...");
-            for (int i = stickyNum; i < threadUrls.size(); i++) {
-                ripper.RipThread(threadUrls.get(i));
-            }
-            System.out.println("\nBoard Rip complete");
-            System.out.println(ripper.getTotal() + " images Ripped");
-            System.out.println("Cleaning up folder...");
-            ripper.cleanUp();
-            System.out.println("Cleanup complete");
+            ripBoard(filePath.getText(), optionalUrl.getText());
         });
         VBox textFields = new VBox(5, filePath, optionalUrl, goButton);
 
         TextField filePathTR = new TextField("/Users/USER_NAME/Pictures/");
         filePathTR.setMinWidth(MIN_TEXT_WIDTH);
+
         TextField optionalUrlTR = new TextField("Put the 4chan thread url to rip here");
         optionalUrlTR.setMinWidth(MIN_TEXT_WIDTH);
+
         Button goButtonTR = new Button("Begin Thread Rip");
         goButtonTR.setOnAction(event -> {
             System.out.println("Starting thread rip...");
@@ -247,9 +120,7 @@ public class Main extends Application {
             threadRipper.cleanUp();
             System.out.println("Cleanup complete");
         });
-
         VBox threadRipperBox = new VBox(5, filePathTR, optionalUrlTR, goButtonTR);
-
 
         HBox horizontalBox = new HBox(20, buttonList, textFields, threadRipperBox);
 
@@ -262,5 +133,26 @@ public class Main extends Application {
         System.out.println("___________________________It is advised to disable the sticky if the board you are ripping has one____________________________");
         System.out.println("________________________If you are on Linux/Mac make sure to start file paths from the root directory_________________________");
         System.out.println("_____________If you are on PC make sure to start file paths from whichever drive you wish to use ex.(C:\\Downloads\\)____________");
+    }
+
+    /**
+     * Runs the board rip with all of the appropriate print statements
+     * @param filePath String of the file path where the images will be downloaded to
+     * @param url String of the url of the 4chan board to be ripped
+     */
+    private void ripBoard(String filePath, String url) {
+        System.out.println("Finding threads...");
+        ThreadRipper ripper = new ThreadRipper(filePath);
+        ArrayList<String> threadUrls = ripper.getThreads(url);
+        System.out.println(threadUrls.size() + " threads found");
+        System.out.println("Ripping threads now...");
+        for (int i = stickyNum; i < threadUrls.size(); i++) {
+            ripper.RipThread(threadUrls.get(i));
+        }
+        System.out.println("\nBoard Rip complete");
+        System.out.println(ripper.getTotal() + " images Ripped");
+        System.out.println("Cleaning up folder...");
+        ripper.cleanUp();
+        System.out.println("Cleanup complete");
     }
 }
