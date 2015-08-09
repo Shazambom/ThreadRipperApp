@@ -1,11 +1,14 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextAreaBuilder;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 /**
@@ -15,6 +18,18 @@ public class Main extends Application {
     private static final int MIN_TEXT_WIDTH = 225;
 
     public void start(Stage stage) {
+        TextArea ta = TextAreaBuilder.create()
+                .prefWidth(800)
+                .prefHeight(400)
+                .wrapText(true)
+                .build();
+
+        Console console = new Console(ta);
+        PrintStream ps = new PrintStream(console, true);
+        System.setOut(ps);
+        System.setErr(ps);
+
+
         TextField otherFilePath = new TextField("File Path");
         otherFilePath.setMinWidth(MIN_TEXT_WIDTH);
         Button wButton = new Button("/w/");
@@ -126,7 +141,7 @@ public class Main extends Application {
         });
         VBox textFields = new VBox(5, filePath, optionalUrl, goButton);
 
-        TextField filePathTR = new TextField("~/Desktop/4chan");
+        TextField filePathTR = new TextField("/Users/USER_NAME/Pictures/");
         filePathTR.setMinWidth(MIN_TEXT_WIDTH);
         TextField optionalUrlTR = new TextField("Put the 4chan thread url to rip here");
         optionalUrlTR.setMinWidth(MIN_TEXT_WIDTH);
@@ -134,6 +149,7 @@ public class Main extends Application {
         goButtonTR.setOnAction(event -> {
             ThreadRipper threadRipper = new ThreadRipper(filePathTR.getText());
             threadRipper.RipThread(optionalUrlTR.getText());
+            threadRipper.cleanUp();
         });
 
         VBox threadRipperBox = new VBox(5, filePathTR, optionalUrlTR, goButtonTR);
@@ -141,7 +157,9 @@ public class Main extends Application {
 
         HBox horizontalBox = new HBox(20, buttonList, textFields, threadRipperBox);
 
-        Scene scene = new Scene(horizontalBox);
+        VBox frame = new VBox(horizontalBox, ta);
+
+        Scene scene = new Scene(frame);
         stage.setScene(scene);
         stage.setTitle("4chan Image Ripper");
         stage.show();
