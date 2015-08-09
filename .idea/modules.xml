@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ThreadRipperApp.iml" filepath="$PROJECT_DIR$/.idea/ThreadRipperApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ThreadRipperApp.iml" filepath="$PROJECT_DIR$/ThreadRipperApp.iml" />
     </modules>
   </component>
 </project>

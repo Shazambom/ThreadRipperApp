@@ -76,7 +76,6 @@ public class ThreadRipper {
                     System.out.print("∎");
                 } catch (JauntException e) {
                     System.out.println("\nFile: " + (i + 1) + " at the url: " + links.get(i) + " failed to download");
-                    System.out.println(e.getMessage());
                     success += downloadImages(links.subList(i + 1, links.size()), names.subList(i + 1, names.size()), userAgent, files);
                     i = links.size();
                 }
