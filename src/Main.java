@@ -4,10 +4,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextAreaBuilder;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
@@ -41,7 +43,7 @@ public class Main extends Application {
                 .prefHeight(400)
                 .wrapText(true)
                 .build();
-
+        ta.setOpacity(0.75);
         Console console = new Console(ta);
         PrintStream ps = new PrintStream(console, true);
         System.setOut(ps);
@@ -94,7 +96,7 @@ public class Main extends Application {
         HBox right = new HBox(10, bButton, polButton, kButton, vButton, vpButton);
         VBox buttonList = new VBox(10, otherFilePath, left, right);
 
-        TextField filePath = new TextField("F:\\RippedImages\\");
+        TextField filePath = new TextField("C:\\Downloads\\");
         filePath.setMinWidth(MIN_TEXT_WIDTH);
         TextField optionalUrl = new TextField("Put the 4chan board url to rip here");
         optionalUrl.setMinWidth(MIN_TEXT_WIDTH);
@@ -126,13 +128,24 @@ public class Main extends Application {
 
         VBox frame = new VBox(horizontalBox, ta, stickyButton);
 
+
+        try {
+            Image image = new Image(new FileInputStream(new File("f.jpg")));
+            Background background = new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                    new BackgroundSize(1080, 720, false, false, false, false)));
+            frame.setBackground(background);
+        } catch (Exception e) {
+            System.out.println("Background error");
+        }
+
         Scene scene = new Scene(frame);
         stage.setScene(scene);
         stage.setTitle("4chan Image Ripper");
         stage.show();
         System.out.println("___________________________It is advised to disable the sticky if the board you are ripping has one____________________________");
         System.out.println("________________________If you are on Linux/Mac make sure to start file paths from the root directory_________________________");
-        System.out.println("_____________If you are on PC make sure to start file paths from whichever drive you wish to use ex.(C:\\Downloads\\)____________");
+        System.out.println("______________________If you are on PC make sure to start file paths from whichever drive you wish to use_____________________");
     }
 
     /**
